@@ -45,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: toylogin
+          name: cicd
           path: build/libs/*.jar
 
   deploy:
@@ -57,7 +57,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: toylogin
+          name: cicd
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
@@ -72,6 +72,6 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PW }}
           port: ${{ secrets.SERVER_PORT }}
-          source: toylogin/*
+          source: /home/runner/work/toy-login/cicd/*
           target: ~/cicd
 
