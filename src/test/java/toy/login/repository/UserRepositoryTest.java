@@ -52,7 +52,7 @@ class UserRepositoryTest {
 
     @Test
     void jacocoTest() {
-        Assertions.assertThat("jacocoTest할꺼임").isEqualTo("jacocoTest할꺼임");
+
     }
 
 }
