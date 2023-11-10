@@ -77,3 +77,4 @@ jobs:
           script: |
             cd /home/project
             sh deploy.sh
+  if: github.event_name != 'pull_request' # pull request 의 경우 배포 하지 않음.
