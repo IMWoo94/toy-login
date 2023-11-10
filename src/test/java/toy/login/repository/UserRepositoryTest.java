@@ -52,7 +52,7 @@ class UserRepositoryTest {
 
     @Test
     void jacocoTest() {
-
+        System.out.println("UserRepositoryTest.jacocoTest");
     }
 
 }
