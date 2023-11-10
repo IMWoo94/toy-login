@@ -58,15 +58,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cicd
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PW }}
-          port: ${{ secrets.SERVER_PORT }}
       - name: copy file to server
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
@@ -74,7 +67,15 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           source: "./*.jar"
           target: "/home/project"
-      - name: Execute remote commands
-        run: |
-          ssh -v ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo fuser -k 8080/tcp || true"
-#          ssh -v ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "sudo nohup /home/project -jar ~/*.jar  > ~/log/1> standard.out 2> standard.err &"
+#      - name: copy file to server
+#        uses: appleboy/scp-action@v0.1.4
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USER }}
+#          password: ${{ secrets.SERVER_PW }}
+#          port: ${{ secrets.SERVER_PORT }}
+#          source: "./*.jar"
+#          target: "/home/project"
+#          script: |
+#            cd
+#            sh deploy.sh
