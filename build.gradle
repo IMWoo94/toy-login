@@ -53,6 +53,7 @@ jacocoTestReport {
         html.required = true
         // 경로 명시 안 할 경우 기본 경로는 build/reports/jacoco 이하 경로
     }
+    finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestCoverageVerification {
@@ -61,6 +62,8 @@ jacocoTestCoverageVerification {
             limit {
                 minimum = 0.50
             }
+            // 커버리지 체크를 제외할 클래스들
+            excludes = ['*.test.*']
         }
         rule {
             element = 'CLASS'
@@ -68,7 +71,7 @@ jacocoTestCoverageVerification {
 
             limit {
                 counter = 'LINE'
-                value = 'COVERREDRATIO'
+                value = 'COVEREDRATIO'
                 minimum = 0.60
             }
             limit {
