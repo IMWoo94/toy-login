@@ -43,6 +43,7 @@ tasks.named('test') {
 
 jacoco {
     toolVersion = "0.8.8" // 버전 명시
+    // reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 jacocoTestReport {
@@ -52,4 +53,41 @@ jacocoTestReport {
         html.required = true
         // 경로 명시 안 할 경우 기본 경로는 build/reports/jacoco 이하 경로
     }
+    finalizedBy jacocoTestCoverageVerification
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.20
+            }
+            // 커버리지 체크를 제외할 클래스들
+            excludes = ['*.test.*', '*.UserController']
+        }
+        rule {
+            element = 'CLASS'
+            enabled = true
+            // 커버리지 체크를 제외할 클래스들
+            excludes = ['*.UserController']
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.01
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.01
+            }
+
+        }
+    }
+}
+
+
+
+
+
+
