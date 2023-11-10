@@ -72,6 +72,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PW }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "/home/runner/work/toy-login/toy-login/*.jar"
-          target: "/home"
+          #          source: "/home/runner/work/toy-login/toy-login/*.jar"
+          source: "../*.jar"
+          target: "/home/project"
 
