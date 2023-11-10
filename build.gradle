@@ -43,6 +43,7 @@ tasks.named('test') {
 
 jacoco {
     toolVersion = "0.8.8" // 버전 명시
+    // reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 jacocoTestReport {
@@ -53,3 +54,34 @@ jacocoTestReport {
         // 경로 명시 안 할 경우 기본 경로는 build/reports/jacoco 이하 경로
     }
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.50
+            }
+        }
+        rule {
+            element = 'CLASS'
+            enabled = true
+
+            limit {
+                counter = 'LINE'
+                value = 'COVERREDRATIO'
+                minimum = 0.60
+            }
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+        }
+    }
+}
+
+
+
+
+
+
