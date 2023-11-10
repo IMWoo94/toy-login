@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  name: build test
+  name: actionsCI
   build:
 
     runs-on: ubuntu-latest
