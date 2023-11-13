@@ -63,6 +63,7 @@ jobs:
       #          working-directory: ../..
       - name: deploy
         run: |
+          pwd
           chmod +x ./deploy.sh
           ./deploy.sh
       # 마찬가지로 애플리케이션 서버 상에서 작동하기 때문에 다운도 필요 없다.
