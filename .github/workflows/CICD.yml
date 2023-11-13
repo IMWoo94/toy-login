@@ -43,11 +43,12 @@ jobs:
           #          token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 50
           min-coverage-changed-files: 50
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: cicd
-          path: build/libs/*.jar
+          # Self-hosted Runner 로 업로드 불필요
+  #      - name: Upload artifact
+  #        uses: actions/upload-artifact@v2
+  #        with:
+  #          name: cicd
+  #          path: build/libs/*.jar
 
   deploy:
     needs: build
@@ -57,34 +58,45 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: cicd
+      #      - name: working directory cd
+      #        run:
+      #          working-directory: ../..
+      - name: deploy
+        run: |
+          chmod +x ./deploy.sh
+          ./deploy.sh
+      # 마찬가지로 애플리케이션 서버 상에서 작동하기 때문에 다운도 필요 없다.
+      # SSH 로 접근할 필요도!! 없다.
+      # 배포 명령어와 기존에 돌아가는 서버만 중단해주는 명령어를 선언만 하면 될 듯하다.
+      # 이건 배포 스크립트를 실행하도록 하자.
+      #      - name: Download artifact
+      #        uses: actions/download-artifact@v2
+      #        with:
+      #          name: cicd
       #      - name: Setup SSH
       #        uses: webfactory/ssh-agent@v0.5.4
       #        with:
       #          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       #      - name: SCP transfer
       #        run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
-      - name: copy file to server
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          #          password: ${{ secrets.SERVER_PW }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          source: "./*.jar"
-          target: "/home/project"
-      - name: executing remote ssh commands server stop and restart
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          #          password: ${{ secrets.SERVER_PW }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            cd /home/project
-            sh deploy.sh
+      #      - name: copy file to server
+      #        uses: appleboy/scp-action@v0.1.4
+      #        with:
+      #          host: ${{ secrets.SERVER_IP }}
+      #          username: ${{ secrets.SERVER_USER }}
+      #          #          password: ${{ secrets.SERVER_PW }}
+      #          key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #          port: ${{ secrets.SERVER_PORT }}
+      #          source: "./*.jar"
+      #          target: "/home/project"
+      #      - name: executing remote ssh commands server stop and restart
+      #        uses: appleboy/ssh-action@master
+      #        with:
+      #          host: ${{ secrets.SERVER_IP }}
+      #          username: ${{ secrets.SERVER_USER }}
+      #          #          password: ${{ secrets.SERVER_PW }}
+      #          key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #          port: ${{ secrets.SERVER_PORT }}
+      #          script: |
+      #            cd /home/project
+      #            sh deploy.sh
