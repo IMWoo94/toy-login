@@ -59,8 +59,8 @@ jobs:
 
     steps:
       - name: working directory cd
-        run:
-          working-directory: ../..
+        run: |
+          cd /home/actions-runner
       - name: deploy
         run: |
           pwd
