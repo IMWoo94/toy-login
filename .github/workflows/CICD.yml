@@ -86,7 +86,7 @@ jobs:
       #          ssh -l ${{ secrets.SERVER_USER }} -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }}
       - name: SCP transfer
         run: |
-          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:~/cicd
 
       #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       #      - name: copy file to server
