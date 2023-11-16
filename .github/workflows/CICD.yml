@@ -60,22 +60,27 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: toy-login-artifact
+          path: /home/test
       - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: /home/test
+      - name: Current locations
         run: |
-          ls -R
           pwd
-      # 깃허브 액션 러너의 아이피를 얻어온다.
+          echo ${{steps.download.outputs.download-path}}
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      - name: Github actions IP keygen reset
-        run: |
-          echo ${{ steps.ip.outputs.ipv4 }}
-          cat /home/runner/.ssh/known_hosts
+
+      #      - name: Setup SSH
+      #        uses: webfactory/ssh-agent@v0.5.4
+      #        with:
+      #          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
+      #      - name: Github actions IP keygen reset
+      #        run: |
+      #          echo ${{ steps.ip.outputs.ipv4 }}
+      #          cat /home/runner/.ssh/known_hosts
+      #          ssh -i ${{ secrets.SSH_USER }}
       #      - name: SSH key add
       #        run: |
       #          echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/private.key
@@ -87,9 +92,9 @@ jobs:
       #        env:
       #          SSH_PRIVATE_KEY: ${{secrets.TOY_LOGIN_SSH_PRIVATE_KEY}}
       #          SSH_KNOWN_HOSTS: ${{secrets.SSH_USER}}
-      - name: SCP transfer
-        run: |
-          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+      #      - name: SCP transfer
+      #        run: |
+      #          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
 
       #          cat /home/runner/.ssh/known_hosts
       #           ssh-keygen -R ${{ steps.ip.outputs.ipv4 }}
