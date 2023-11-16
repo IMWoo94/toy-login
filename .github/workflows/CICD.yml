@@ -60,10 +60,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: toy-login-artifact
-          path: /home/runner/work
+          path: /home/runner/work/toy-login/test
       - name: Display structure of downloaded files
         run: ls -R
-        working-directory: /home/runner/work
+        working-directory: /home/runner/work/toy-login/test
       - name: Current locations
         run: |
           pwd
