@@ -78,15 +78,11 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      - name: hosts reset
-        run: |
-          ssh-keygen -R github.com
-          ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> /home/runner/.ssh/known_hosts
       - name: SCP transfer
         run: |
-          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:home/cicd/
+          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:home/cicd/
 
-      #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+      #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
       #        with:
