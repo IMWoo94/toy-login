@@ -44,7 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: toy-login-artitact
+          name: toy-login-artifact
           path: build/libs/*.jar
 
   deploy:
@@ -58,7 +58,13 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: cicd
+          name: toy-login-artifact
+          path: /home/test
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: path/to/artifact
+      - name: working-directory set pwd
+        run: pwd
       #      - name: Setup SSH
       #        uses: webfactory/ssh-agent@v0.5.4
       #        with:
