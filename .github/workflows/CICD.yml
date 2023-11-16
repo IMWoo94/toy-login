@@ -85,7 +85,7 @@ jobs:
       #          cat ~/.ssh/known_hosts
       - name: ssh connect
         run: |
-          ssh -i ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }}
+          ssh -i ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }}
       #      - name: SCP transfer
       #        run: |
       #          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
