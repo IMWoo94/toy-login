@@ -80,12 +80,12 @@ jobs:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
             #      - name: hosts reset
             #        run: |
-            #          ssh-keygen -R github.com
+          #          ssh-keygen -R github.com
           #          ssh-keyscan -t rsa 10.41.126.165 >> ~/.ssh/known_host
           #          cat ~/.ssh/known_hosts
-      - name: ssh connect
-        run: |
-          ssh -l ${{ secrets.SERVER_USER }} -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }}
+      #      - name: ssh connect
+      #        run: |
+      #          ssh -l ${{ secrets.SERVER_USER }} -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }}
       - name: SCP transfer
         run: |
           scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:~/cicd
