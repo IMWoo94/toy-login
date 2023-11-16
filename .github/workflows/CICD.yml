@@ -64,25 +64,18 @@ jobs:
         run: |
           ls -R
           pwd
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: copy file to server
+        uses: appleboy/scp-action@v0.1.4
         with:
-          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      - name: SCP transfer
-        run: |
-          scp -P ${{ secrets.SERVER_PORT}} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}: /home/runner/work/toy-login
-
-      #      scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
-      #      - name: copy file to server
-      #        uses: appleboy/scp-action@v0.1.4
-      #        with:
-      #          host: ${{ secrets.SERVER_IP }}
-      #          username: ${{ secrets.SERVER_USER }}
-      #          #          password: ${{ secrets.SERVER_PW }}
-      #          key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #          port: ${{ secrets.SERVER_PORT }}
-      #          source: "./*.jar"
-      #          target: "/home/project"
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: "./*.jar"
+          target: "/home/project"
+          script: |
+            pwd
+            ls -all
       #      - name: executing remote ssh commands server stop and restart
       #        uses: appleboy/ssh-action@master
       #        with:
