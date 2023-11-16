@@ -78,10 +78,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      #      - name: hosts reset
-      #        run: |
-      #          ssh-keygen -R github.com
-      #          ssh-keyscan -t rsa [${{ secrets.SERVER_USER }}]:${{ secrets.SERVER_PORT }} >> /home/runner/.ssh/known_hosts
+      - name: hosts reset
+        run: |
+          ssh-keygen -R github.com
+          ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> /home/runner/.ssh/known_hosts
       - name: SCP transfer
         run: |
           scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:home/cicd/
