@@ -69,7 +69,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: SCP transfer
-        run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} /home/test/
+        run: |
+          pwd
+          scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
+          cd ~/cicd
+          ls -all
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
       #        with:
