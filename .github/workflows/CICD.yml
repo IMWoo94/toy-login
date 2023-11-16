@@ -81,7 +81,7 @@ jobs:
       - name: hosts reset
         run: |
           cat ~/.ssh/known_hosts
-          ssh-keygen -R ${{ steps.ip.outputs.ipv4 }}
+          ssh-keygen -R ${{ secrets.SERVER_IP }}
       - name: SCP transfer
         run: |
           scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
