@@ -78,11 +78,11 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      - name: hosts reset
-        run: |
-          ssh-keygen -R github.com
-          ssh-keyscan -t rsa 10.41.126.165 >> ~/.ssh/known_host
-          cat ~/.ssh/known_hosts
+      #      - name: hosts reset
+      #        run: |
+      #          ssh-keygen -R github.com
+      #          ssh-keyscan -t rsa 10.41.126.165 >> ~/.ssh/known_host
+      #          cat ~/.ssh/known_hosts
       - name: ssh connect
         run: |
           ssh -i ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }}
