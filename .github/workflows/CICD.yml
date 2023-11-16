@@ -60,44 +60,27 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: toy-login-artifact
-          path: /home/runner/work/toy-login/test
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: /home/runner/work/toy-login/test
-      - name: Current locations
-        run: |
-          pwd
-          echo ${{steps.download.outputs.download-path}}
+          path: /home/runner/work/toy-login
+      #      - name: Display structure of downloaded files
+      #        run: |
+      #          ls -R
+      #          echo ${{steps.download.outputs.download-path}}
+      #        working-directory: /home/runner/work/toy-login/test
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
-
+      - name: Github actions IP keygen reset
+        run: |
+          echo $GITHUB_ACTIONS_IP
+        env:
+          GITHUB_ACTIONS_IP: ${{ steps.ip.outputs.ipv4 }}
       #      - name: Setup SSH
       #        uses: webfactory/ssh-agent@v0.5.4
       #        with:
       #          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      #      - name: Github actions IP keygen reset
-      #        run: |
-      #          echo ${{ steps.ip.outputs.ipv4 }}
-      #          cat /home/runner/.ssh/known_hosts
-      #          ssh -i ${{ secrets.SSH_USER }}
-      #      - name: SSH key add
-      #        run: |
-      #          echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/private.key
-      #          sudo chmod 600 /home/runner/.ssh/private.key
-      #          echo "$SSH_KNOWN_HOSTS" > /home/runner/.ssh/known_hosts
-      #          sudo chmod 600 /home/runner/.ssh/known_hosts
-      #          cat /home/runner/.ssh/known_hosts
-      #        shell: bash
-      #        env:
-      #          SSH_PRIVATE_KEY: ${{secrets.TOY_LOGIN_SSH_PRIVATE_KEY}}
-      #          SSH_KNOWN_HOSTS: ${{secrets.SSH_USER}}
       #      - name: SCP transfer
       #        run: |
       #          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
-
-      #          cat /home/runner/.ssh/known_hosts
-      #           ssh-keygen -R ${{ steps.ip.outputs.ipv4 }}
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
       #        with:
