@@ -81,7 +81,7 @@ jobs:
       - name: hosts reset
         run: |
           cat ~/.ssh/known_hosts
-          ssh-keyscan -t rsa ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} >> ~/.ssh/known_host
+          ssh-keyscan -t rsa 10.41.126.165 >> ~/.ssh/known_host
           cat ~/.ssh/known_hosts
       - name: SCP transfer
         run: |
