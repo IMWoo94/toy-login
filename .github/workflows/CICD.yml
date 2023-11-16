@@ -80,7 +80,7 @@ jobs:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       - name: hosts reset
         run: |
-          chmod 744 /home/runner/.ssh/known_hosts
+          chmod 777 /home/runner/.ssh/known_hosts
           ssh-keyscan -t rsa ${{ secrets.SERVER_IP }} >> /home/runner/.ssh/known_hosts
       - name: SCP transfer
         run: |
