@@ -78,7 +78,6 @@ jobs:
           cat /home/runner/.ssh/known_hosts
       - name: SSH key add
         run: |
-          mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/private.key
           sudo chmod 600 /home/runner/.ssh/private.key
           echo "$SSH_KNOWN_HOSTS" > /home/runner/.ssh/known_hosts
