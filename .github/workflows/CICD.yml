@@ -59,12 +59,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: toy-login-artifact
-          path: /home/test
       - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: path/to/artifact
-      - name: working-directory set pwd
-        run: pwd
+        run: |
+          ls -R
+          pwd
+
       #      - name: Setup SSH
       #        uses: webfactory/ssh-agent@v0.5.4
       #        with:
