@@ -69,15 +69,15 @@ jobs:
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
-      - name: Github actions IP keygen reset
-        run: |
-          echo $GITHUB_ACTIONS_IP
         env:
           GITHUB_ACTIONS_IP: ${{ steps.ip.outputs.ipv4 }}
-      #      - name: Setup SSH
-      #        uses: webfactory/ssh-agent@v0.5.4
-      #        with:
-      #          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
+      - name: Github actions IP
+        run: |
+          echo $GITHUB_ACTIONS_IP
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       #      - name: SCP transfer
       #        run: |
       #          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
