@@ -76,6 +76,12 @@ jobs:
           script: |
             pwd
             ls -all
+      # 깃허브 액션 러너의 아이피를 얻어온다.
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+      - name: Gihub actions IP print
+        run: echo ${{ steps.ip.outputs.ipv4 }}/32
       #      - name: executing remote ssh commands server stop and restart
       #        uses: appleboy/ssh-action@master
       #        with:
