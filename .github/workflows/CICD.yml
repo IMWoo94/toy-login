@@ -80,7 +80,7 @@ jobs:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       - name: SCP transfer
         run: |
-          scp *.jar root@192.168.0.10:~/cicd
+          scp *.jar imwoo@192.168.0.59:~/cicd
 
       #          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       #      - name: copy file to server
