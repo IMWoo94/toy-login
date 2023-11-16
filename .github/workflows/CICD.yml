@@ -71,9 +71,10 @@ jobs:
       - name: SCP transfer
         run: |
           pwd
-          scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
+          scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }}: ~/cicd
           cd ~/cicd
           ls -all
+      #      scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
       #        with:
