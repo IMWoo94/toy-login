@@ -81,12 +81,10 @@ jobs:
       - name: hosts reset
         run: |
           ssh-keygen -R github.com
-      #      - name: ssh connect
-      #        run: |
-      #          ssh -l ${{ secrets.SERVER_USER }} -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }}
+          ssh-keyscan -t rsa [${{ secrets.SERVER_USER }}]:${{ secrets.SERVER_PORT }} >> /home/runner/.ssh/known_hosts
       - name: SCP transfer
         run: |
-          scp -P 1028 -o StrictHostKeyChecking=no *.jar root@45.119.146.180:~/cicd
+          scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:home/cicd/
 
       #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       #      - name: copy file to server
