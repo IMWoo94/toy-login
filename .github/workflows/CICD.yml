@@ -78,6 +78,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
+      - name: hosts reset
+        run: |
+          cat ~/.ssh/known_hosts
       - name: SCP transfer
         run: |
           scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
