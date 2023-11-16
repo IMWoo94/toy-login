@@ -79,7 +79,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       - name: SCP transfer
-        run: scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/cicd/
+        run: scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/cicd
           
           #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
           #      - name: copy file to server
@@ -88,8 +88,8 @@ jobs:
           #          host: ${{ secrets.SERVER_IP }}
           #          username: ${{ secrets.SERVER_USER }}
           #          key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-          #          port: ${{ secrets.SERVER_PORT }}
-          #          source: "./*.jar"
+        #          port: ${{ secrets.SERVER_PORT }}
+        #          source: "./*.jar"
         #          target: "/home/project"
         #          script: |
         #            pwd
