@@ -70,12 +70,8 @@ jobs:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       - name: SCP transfer
         run: |
-          cat /home/runner/.ssh/known_hosts
-          pwd
-          ls -all
-          scp -P ${{ secrets.SERVER_PORT}} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/home/test
-          cd ~/cicd
-          ls -all
+          scp -P ${{ secrets.SERVER_PORT}} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}: /home/test
+
       #      scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
