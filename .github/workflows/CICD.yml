@@ -20,7 +20,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    #    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
@@ -40,14 +39,12 @@ jobs:
           title: 📝 테스트 커버리지 리포트입니다
           paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.SECRET }}
-          #          token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 50
           min-coverage-changed-files: 50
-          # Self-hosted Runner 로 업로드 불필요
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: cicd
+          name: toy-login-artitact
           path: build/libs/*.jar
 
   deploy:
@@ -56,30 +53,18 @@ jobs:
     if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest
-    #    runs-on: self-hosted
 
     steps:
-      #      - name: working directory cd and deploy start
-      #        run: |
-      #          cd /home/actions-runner
-      #          pwd
-      #          chmod +x ./deploy.sh
-      #          sudo ./deploy.sh
-      # 마찬가지로 애플리케이션 서버 상에서 작동하기 때문에 다운도 필요 없다.
-      # SSH 로 접근할 필요도!! 없다.
-      # 배포 명령어와 기존에 돌아가는 서버만 중단해주는 명령어를 선언만 하면 될 듯하다.
-      # 이건 배포 스크립트를 실행하도록 하자.
-
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: cicd
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: SCP transfer
-        run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
+      #      - name: Setup SSH
+      #        uses: webfactory/ssh-agent@v0.5.4
+      #        with:
+      #          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #      - name: SCP transfer
+      #        run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
       #      - name: copy file to server
       #        uses: appleboy/scp-action@v0.1.4
       #        with:
