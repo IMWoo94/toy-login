@@ -79,10 +79,11 @@ jobs:
       - name: SSH key add
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
-          sudo chmod 600 ~/.ssh/private.key
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          sudo chmod 600 ~/.ssh/known_hosts
+          echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/private.key
+          sudo chmod 600 /home/runner/.ssh/private.key
+          echo "$SSH_KNOWN_HOSTS" > /home/runner/.ssh/known_hosts
+          sudo chmod 600 /home/runner/.ssh/known_hosts
+          cat /home/runner/.ssh/known_hosts
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.TOY_LOGIN_SSH_PRIVATE_KEY}}
@@ -90,7 +91,6 @@ jobs:
       - name: SCP transfer
         run: |
           scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
-          cat /home/runner/.ssh/known_hosts
 
       #          cat /home/runner/.ssh/known_hosts
       #           ssh-keygen -R ${{ steps.ip.outputs.ipv4 }}
