@@ -72,7 +72,7 @@ jobs:
         run: |
           pwd
           ls -all
-          scp ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP_PORT }}:/*.jar /home/test
+          scp -P ${{ secrets.SERVER_PORT}} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/home/test
           cd ~/cicd
           ls -all
       #      scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }} ~/cicd
