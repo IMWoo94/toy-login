@@ -25,10 +25,10 @@ jobs:
     steps:
       - name: Git cncurrency env print
         run: |
-          cat $WORK_FLOW
-          cat $GITHUB_REF
-          cat $GITHUB_HEAD_REF
-          cat $GITHUB_RUN_ID
+          echo $WORK_FLOW
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_RUN_ID
         env:
           WORK_FLOW: ${{ github.workflow }}
           GITHUB_REF: ${{ github.ref }}
