@@ -96,7 +96,7 @@ jobs:
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
 
-
+# jacoco test
 #      - name: Display structure of downloaded files
 #        run: |
 #          ls -R
