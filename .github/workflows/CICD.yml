@@ -31,7 +31,6 @@ env:
 jobs:
 
   concurrent:
-    needs: start_slack_notify
     runs-on: ubuntu-latest
 
     steps:
@@ -42,52 +41,9 @@ jobs:
           echo $GITHUB_HEAD_REF
           echo $GITHUB_RUN_ID
 
-  start_slack_notify:
-    runs-on: ubuntu-latest
-    if: always() # 항상 전송
-
-    steps:
-      - name: notify slack start
-        id: slack_state
-        uses: 8398a7/action-slack@v3
-        with:
-          status: custom
-          fields: workflow,job,commit,repo,ref,author,took
-          custom_payload: |
-            {
-              attachments: [{
-                color: 'good',
-                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} start in ${process.env.AS_TOOK}`,
-              }]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  end_slack_notify:
-    needs: [ start_slack_notify, build, deploy ]
-    runs-on: ubuntu-latest
-    if: always() # 항상 전송
-
-    steps:
-      - name: notify slack end
-        id: slack_state
-        uses: 8398a7/action-slack@v3
-        with:
-          status: custom
-          fields: workflow,job,commit,repo,ref,author,took
-          custom_payload: |
-            {
-              attachments: [{
-                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
-              }]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
   build:
 
-    needs: start_slack_notify
+    needs: concurrent
     runs-on: ubuntu-latest
 
     steps:
@@ -167,6 +123,48 @@ jobs:
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
 
+#  start_slack_notify:
+#    runs-on: ubuntu-latest
+#    if: always() # 항상 전송
+#
+#    steps:
+#      - name: notify slack start
+#        id: slack_state
+#        uses: 8398a7/action-slack@v3
+#        with:
+#          status: custom
+#          fields: workflow,job,commit,repo,ref,author,took
+#          custom_payload: |
+#            {
+#              attachments: [{
+#                color: 'good',
+#                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} start in ${process.env.AS_TOOK}`,
+#              }]
+#            }
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#
+#  end_slack_notify:
+#    needs: [ start_slack_notify, build, deploy ]
+#    runs-on: ubuntu-latest
+#    if: always() # 항상 전송
+#
+#    steps:
+#      - name: notify slack end
+#        id: slack_state
+#        uses: 8398a7/action-slack@v3
+#        with:
+#          status: custom
+#          fields: workflow,job,commit,repo,ref,author,took
+#          custom_payload: |
+#            {
+#              attachments: [{
+#                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+#                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+#              }]
+#            }
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 # git main test
 #      - name: Display structure of downloaded files
 #        run: |
