@@ -60,12 +60,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: toy-login-artifact
-      #          path: /home/runner/work/toy-login
-      #      - name: Display structure of downloaded files
-      #        run: |
-      #          ls -R
-      #          echo ${{steps.download.outputs.download-path}}
-      #        working-directory: /home/runner/work/toy-login/test
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
@@ -94,35 +88,29 @@ jobs:
           key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "> 현재 구동중인 애플리케이션 PID 확인"
-            CURRENT_PID=$(lsof -i tcp:8080 | awk 'NR!=1 {print$2}')
+            pwd
+            cd /home/test
+            pwd
+            chmod +x ./login_deploy.sh
+            sudo login_deploy.sh
 
-            echo "현재 구동중인 애플리케이션 PID : $CURRENT_PID"
-            if [ -z "$CURRENT_PID" ]; then
-              echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
-            else
-              echo "> kill -9 $CURRENT_PID"
-              kill -9 $CURRENT_PID
-              sleep 5
-            fi
-            
-            nohup java -jar /home/test/login.jar -spring.profiles.active=dev
-        
-        
-
-        #      - name: copy file to server
-        #        uses: appleboy/scp-action@v0.1.4
-        #        with:
-        #          host: ${{ secrets.SERVER_IP }}
-        #          username: ${{ secrets.SERVER_USER }}
-        #          key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-        #          port: ${{ secrets.SERVER_PORT }}
-        #          source: "./*.jar"
-        #          target: "/home/project"
-        #          script: |
-        #            pwd
-        #            ls -all
-
+#      - name: Display structure of downloaded files
+#        run: |
+#          ls -R
+#          echo ${{steps.download.outputs.download-path}}
+#        working-directory: /home/runner/work/toy-login/test
+#      - name: copy file to server
+#        uses: appleboy/scp-action@v0.1.4
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USER }}
+#          key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
+#          port: ${{ secrets.SERVER_PORT }}
+#          source: "./*.jar"
+#          target: "/home/project"
+#          script: |
+#            pwd
+#            ls -all
 #      - name: executing remote ssh commands server stop and restart
 #        uses: appleboy/ssh-action@master
 #        with:
