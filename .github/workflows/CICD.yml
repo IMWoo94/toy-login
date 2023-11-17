@@ -79,9 +79,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
       - name: SCP transfer
-        run: scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/test/login.jar
+        run: scp -v -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/test/login.jar
       - name: SSH test
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "pwd"
+        run: ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "pwd"
         #          scp -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
         #      - name: copy file to server
         #        uses: appleboy/scp-action@v0.1.4
