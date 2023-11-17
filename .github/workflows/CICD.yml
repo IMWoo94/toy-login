@@ -143,8 +143,11 @@ jobs:
     runs-on: ubuntu-latest
     if: always() # 취소 되어도, 실패하여도 항상 실행되도록 설정
     steps:
+      # env.WORKFLOW_CONCLUSION 키워드를 통해 앞선 job 의 수행 결과를 가져온다.
+      - uses: technote-space/workflow-conclusion-action@v3
+
       - name: Slack Notify Deploy Prod Success
-        if: success()
+        if: env.WORKFLOW_CONCLUSION == 'success' # success()
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -155,7 +158,7 @@ jobs:
           color: good
 
       - name: Slack Notify Deploy Prod Failure
-        if: failure()
+        if: env.WORKFLOW_CONCLUSION == 'failure' # failure()
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
@@ -164,6 +167,17 @@ jobs:
           message_id: ${{ steps.notify-deploy-start.outputs.message_id }}
           status: FAILURE
           color: danger
+
+      - name: Slack Notify Deploy Prod Cancelled
+        if: env.WORKFLOW_CONCLUSION == 'cancelled'
+        uses: voxmedia/github-action-slack-notify-build@v1.5.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        with:
+          channel_id: ${{ secrets.SLACK_CHANNEL }}
+          message_id: ${{ steps.notify-deploy-start.outputs.message_id }}
+          status: CANCELLED
+          color: '#808080'
 
 #  start_slack_notify:
 #    runs-on: ubuntu-latest
