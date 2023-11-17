@@ -44,9 +44,10 @@ jobs:
   start_slack_notify:
     runs-on: ubuntu-latest
     if: always() # 항상 전송
+
     steps:
       - name: notify slack start
-      - uses: 8398a7/action-slack@v3
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
