@@ -13,6 +13,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# Workflow + branch 하나만 동작
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -57,7 +62,7 @@ jobs:
 
     # 배포 작업에 대해서만 concurrency 적용
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: deploy
       cancel-in-progress: true
 
     steps:
