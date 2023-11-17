@@ -31,6 +31,7 @@ env:
 jobs:
 
   concurrent:
+    needs: start_slack_notify
     runs-on: ubuntu-latest
 
     steps:
