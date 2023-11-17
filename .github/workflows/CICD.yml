@@ -9,7 +9,7 @@ name: Java CI with Gradle and Jacoco
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "jacoco" ]
   pull_request:
     branches: [ "main" ]
 
