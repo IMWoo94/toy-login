@@ -43,7 +43,7 @@ jobs:
 
   build:
 
-    needs: [ concurrent, notify-deploy-start ]
+    needs: [ concurrent, notify-slack-start ]
     runs-on: ubuntu-latest
 
     steps:
@@ -123,7 +123,7 @@ jobs:
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
 
-  notify-deploy-start:
+  notify-slack-start:
     runs-on: ubuntu-latest
     outputs:
       message_id: $
@@ -138,8 +138,8 @@ jobs:
           status: STARTING
           color: warning
 
-  notify-deploy-result:
-    needs: [ notify-deploy-start, deploy ]
+  notify-slack-result:
+    needs: [ notify-slack-start, deploy ]
     runs-on: ubuntu-latest
     if: always() # 취소 되어도, 실패하여도 항상 실행되도록 설정
     steps:
