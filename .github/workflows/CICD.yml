@@ -132,7 +132,7 @@ jobs:
         id: slack_notify
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_LEVEL_TOKEN }}
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           status: STARTING
@@ -149,7 +149,7 @@ jobs:
         if: env.WORKFLOW_CONCLUSION == 'success'
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_LEVEL_TOKEN }}
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
@@ -160,7 +160,7 @@ jobs:
         if: env.WORKFLOW_CONCLUSION == 'failure'
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_LEVEL_TOKEN }}
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
@@ -171,7 +171,7 @@ jobs:
         if: env.WORKFLOW_CONCLUSION == 'cancelled'
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_LEVEL_TOKEN }}
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
