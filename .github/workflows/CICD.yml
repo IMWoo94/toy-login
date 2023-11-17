@@ -13,10 +13,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
@@ -58,6 +54,11 @@ jobs:
     if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest
+
+    # 배포 작업에 대해서만 concurrency 적용
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       - name: Download artifact
