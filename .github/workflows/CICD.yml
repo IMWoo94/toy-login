@@ -11,7 +11,7 @@ on:
   push:
     branches: [ "main", "jacoco" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "jacoco" ]
 
 # Workflow + branch 하나만 동작
 concurrency:
@@ -21,7 +21,24 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  WORK_FLOW: ${{ github.workflow }}
+  GITHUB_REF: ${{ github.ref }}
+  GITHUB_HEAD_REF: ${{ github.head_ref }}
+  GITHUB_RUN_ID: ${{ github.run_id }}
+
 jobs:
+  concurrent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: concurrency env echo
+        run: |
+          echo $WORK_FLOW
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_RUN_ID
+
   build:
 
     runs-on: ubuntu-latest
@@ -59,11 +76,6 @@ jobs:
     if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest
-
-    # 배포 작업에 대해서만 concurrency 적용
-    concurrency:
-      group: deploy
-      cancel-in-progress: true
 
     steps:
       - name: Download artifact
