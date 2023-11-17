@@ -13,6 +13,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
 permissions:
   contents: read
 
@@ -88,9 +92,7 @@ jobs:
           key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            pwd
             cd /home/test
-            pwd
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
 
