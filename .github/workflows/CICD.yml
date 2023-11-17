@@ -85,8 +85,8 @@ jobs:
         run: scp -v -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/test/login.jar
       - name: Execute remote commands
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo fuser -k 8080/tcp"
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo nohup java -jar /home/test/login.jar &"
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} -P ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} -P ${{ secrets.SERVER_PORT }} "sudo nohup java -jar /home/test/login.jar &"
       - name: SSH known_hosts read after
         run: |
           cat /home/runner/.ssh/known_hosts
