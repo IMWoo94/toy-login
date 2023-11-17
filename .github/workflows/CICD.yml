@@ -21,7 +21,24 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  WORK_FLOW: ${{ github.workflow }}
+  GITHUB_REF: ${{ github.ref }}
+  GITHUB_HEAD_REF: ${{ github.head_ref }}
+  GITHUB_RUN_ID: ${{ github.run_id }}
+
 jobs:
+  concurrent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: concurrency env echo
+        run: |
+          echo $WORK_FLOW
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_RUN_ID
+
   build:
 
     runs-on: ubuntu-latest
