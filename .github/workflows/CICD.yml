@@ -16,7 +16,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 permissions:
   contents: read
 
@@ -95,6 +95,7 @@ jobs:
             cd /home/test
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
+
 
 #      - name: Display structure of downloaded files
 #        run: |
