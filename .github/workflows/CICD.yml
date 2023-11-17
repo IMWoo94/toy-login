@@ -20,6 +20,7 @@ concurrency:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   WORK_FLOW: ${{ github.workflow }}
@@ -28,6 +29,7 @@ env:
   GITHUB_RUN_ID: ${{ github.run_id }}
 
 jobs:
+
   concurrent:
     runs-on: ubuntu-latest
 
@@ -38,6 +40,18 @@ jobs:
           echo $GITHUB_REF
           echo $GITHUB_HEAD_REF
           echo $GITHUB_RUN_ID
+
+  start_slack_notify:
+    runs-on: ubuntu-latest
+    if: always() # 항상 전송
+    steps:
+      - name: notify slack start
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   build:
 
@@ -70,6 +84,12 @@ jobs:
           name: toy-login-artifact
           path: build/libs/*.jar
 
+  #  deploy-dev:
+  #  if: ${{ github.ref == 'refs/heads/develop' }}
+  #    ...
+  #
+  #  deploy-prod:
+  #    if: ${{ github.ref == 'refs/heads/main' }}
   deploy:
     needs: build
 
