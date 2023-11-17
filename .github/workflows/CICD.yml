@@ -27,6 +27,7 @@ env:
   GITHUB_REF: ${{ github.ref }}
   GITHUB_HEAD_REF: ${{ github.head_ref }}
   GITHUB_RUN_ID: ${{ github.run_id }}
+  RUN_STATE: ${{ github.event.workflow_run.conclusion }}
 
 jobs:
 
@@ -41,7 +42,6 @@ jobs:
           echo $GITHUB_REF
           echo $GITHUB_HEAD_REF
           echo $GITHUB_RUN_ID
-          echo ${{ steps.slack_state.job.status }}
 
   start_slack_notify:
     runs-on: ubuntu-latest
@@ -49,6 +49,27 @@ jobs:
 
     steps:
       - name: notify slack start
+        id: slack_state
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  end_slack_notify:
+    runs-on: ubuntu-latest
+    if: $RUN_STATE != 'success'
+
+    steps:
+      - name: notify slack end
         id: slack_state
         uses: 8398a7/action-slack@v3
         with:
