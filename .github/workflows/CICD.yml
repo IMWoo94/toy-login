@@ -9,7 +9,7 @@ name: Java CI with Gradle and Jacoco
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "jacoco" ]
   pull_request:
     branches: [ "main" ]
 
@@ -96,7 +96,7 @@ jobs:
             chmod +x ./login_deploy.sh
             sudo ./login_deploy.sh
 
-# jacoco test
+# jacoco
 #      - name: Display structure of downloaded files
 #        run: |
 #          ls -R
