@@ -92,7 +92,7 @@ jobs:
             cd /home/test
             pwd
             chmod +x ./login_deploy.sh
-            sudo login_deploy.sh
+            sudo ./login_deploy.sh
 
 #      - name: Display structure of downloaded files
 #        run: |
