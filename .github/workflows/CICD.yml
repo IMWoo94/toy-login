@@ -134,7 +134,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel: ${{ secrets.SLACK_CHANNEL }}
+          channel_id: ${{ secrets.SLACK_CHANNEL }}
           status: STARTING
           color: warning
 
@@ -151,7 +151,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel: ${{ secrets.SLACK_CHANNEL }}
+          channel_id: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
           status: SUCCESS
           color: good
@@ -162,7 +162,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel: ${{ secrets.SLACK_CHANNEL }}
+          channel_id: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
           status: FAILURE
           color: danger
@@ -173,7 +173,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
         with:
-          channel: ${{ secrets.SLACK_CHANNEL }}
+          channel_id: ${{ secrets.SLACK_CHANNEL }}
           message_id: $
           status: CANCELLED
           color: '#808080'
