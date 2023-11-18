@@ -1,6 +1,6 @@
 package toy.login.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,8 +16,8 @@ public class BaseTimeEntity {
 
 	@CreatedDate
 	@Column(updatable = false)
-	private LocalDateTime createdDate;
+	private LocalDate createdDate;
 
 	@LastModifiedDate
-	private LocalDateTime lastModifiedDate;
+	private LocalDate lastModifiedDate;
 }
