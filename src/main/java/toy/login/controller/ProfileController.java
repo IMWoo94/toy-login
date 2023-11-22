@@ -18,6 +18,7 @@ public class ProfileController {
 
 	@GetMapping
 	public String profile() {
+		// 현재 실행 중인 ActiveProfile 을 모두 가져 온다.
 		List<String> profiles = Arrays.asList(environment.getActiveProfiles());
 		List<String> useProfiles = Arrays.asList("blue", "green");
 		String defaultProfile = profiles.get(0);
