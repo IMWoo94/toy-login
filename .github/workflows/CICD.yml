@@ -107,7 +107,7 @@ jobs:
         run: |
           cat /home/runner/.ssh/known_hosts
       - name: SCP transfer
-        run: scp -v -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/test/login.jar
+        run: scp -v -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/test/login.jar
       - name: SSH known_hosts read after
         run: |
           cat /home/runner/.ssh/known_hosts
