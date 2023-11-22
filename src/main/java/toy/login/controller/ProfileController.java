@@ -21,7 +21,7 @@ public class ProfileController {
 		// 현재 실행 중인 ActiveProfile 을 모두 가져 온다.
 		List<String> profiles = Arrays.asList(environment.getActiveProfiles());
 		List<String> useProfiles = Arrays.asList("blue", "green");
-		String defaultProfile = profiles.get(0);
+		String defaultProfile = profiles.isEmpty() ? "default" : profiles.get(0);
 
 		return Arrays.stream(environment.getActiveProfiles())
 			.filter(useProfiles::contains)
