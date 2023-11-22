@@ -1,5 +1,5 @@
 #!/bin/bash
-REPOSITORY=/home/project
+REPOSITORY=/home
 PROJECT_NAME=login
 LOG_FILE=standard
 
@@ -21,16 +21,16 @@ CUR_DTTM=$(date +%Y%m%d%H%M%S)
 
 if [ -e $LOG_FILE.out ]; then
   echo "nohup 백업 : standard-${CUR_DTTM}.out"
-  mv $REPOSITORY/standard.out $REPOSITORY/log/toy/standard-${CUR_DTTM}.out
+  mv $REPOSITORY/standard.out $REPOSITORY/log/standard-${CUR_DTTM}.out
 fi
 
 if [ -e $LOG_FILE.err ]; then
   echo "nohup 백업 : standard-${CUR_DTTM}.err"
-  mv $REPOSITORY/standard.err $REPOSITORY/log/toy/standard-${CUR_DTTM}.err
+  mv $REPOSITORY/standard.err $REPOSITORY/log/standard-${CUR_DTTM}.err
 fi
 
 echo "> 새 애플리케이션 배포"
 # JAR_NAME=#(ls -tr $REPOSITORY/ |grep jar|tail -n 1)
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 echo "> JAR Name : $JAR_NAME"
-nohup java -jar $JAR_NAME 1> standard.out 2> standard.err &
+nohup java -jar $JAR_NAME -spring.profiles.active=dev 1> standard.out 2> standard.err &
