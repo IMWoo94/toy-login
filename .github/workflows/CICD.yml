@@ -120,8 +120,8 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /home/test
-            chmod +x ./login_deploy.sh
-            sudo ./login_deploy.sh
+  #            chmod +x ./login_deploy.sh
+  #            sudo ./login_deploy.sh
 
   notify-slack-start:
     runs-on: ubuntu-latest
