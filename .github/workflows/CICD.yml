@@ -103,14 +103,8 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-      #      - name: SSH known_hosts read before
-      #        run: |
-      #          cat /home/runner/.ssh/known_hosts
       - name: SCP transfer
         run: scp -v -P ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /home/runner/work/toy-login/toy-login/login-0.0.1-SNAPSHOT.jar ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/login-0.0.1-SNAPSHOT.jar
-      #      - name: SSH known_hosts read after
-      #        run: |
-      #          cat /home/runner/.ssh/known_hosts
       - name: executing remote ssh commands server stop and restart
         uses: appleboy/ssh-action@master
         with:
