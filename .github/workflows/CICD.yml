@@ -222,12 +222,6 @@ jobs:
 #            }
 #        env:
 #          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-# git main test
-#      - name: Display structure of downloaded files
-#        run: |
-#          ls -R
-#          echo ${{steps.download.outputs.download-path}}
-#        working-directory: /home/runner/work/toy-login/test
 #      - name: copy file to server
 #        uses: appleboy/scp-action@v0.1.4
 #        with:
@@ -240,13 +234,3 @@ jobs:
 #          script: |
 #            pwd
 #            ls -all
-#      - name: executing remote ssh commands server stop and restart
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.SERVER_IP }}
-#          username: ${{ secrets.SERVER_USER }}
-#          key: ${{ secrets.TOY_LOGIN_SSH_PRIVATE_KEY }}
-#          port: ${{ secrets.SERVER_PORT }}
-#          script: |
-#            cd /home/project
-#            sh deploy.sh
