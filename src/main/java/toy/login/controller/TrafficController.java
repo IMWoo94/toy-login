@@ -50,4 +50,12 @@ public class TrafficController {
 		log.info("connection info={}", conn); //conn.close();//커넥션을 닫지 않는다.
 		return "ok";
 	}
+
+	@GetMapping("/error-log")
+	public String errorLog() {
+		for (int i = 0; i < 100; i++) {
+			log.error("error log");
+		}
+		return "error";
+	}
 }
