@@ -1,4 +1,4 @@
-package toy.login.domain;
+package toy.login.users.domain;
 
 import java.time.LocalDate;
 
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import toy.login.entity.BaseEntity;
+import toy.login.commons.entity.BaseEntity;
 
 @Entity
 @Table(name = "Users")

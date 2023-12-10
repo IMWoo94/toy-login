@@ -1,4 +1,4 @@
-package toy.login.domain;
+package toy.login.users.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

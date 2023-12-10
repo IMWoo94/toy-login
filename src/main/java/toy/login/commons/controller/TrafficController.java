@@ -1,4 +1,4 @@
-package toy.login.controller;
+package toy.login.commons.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;

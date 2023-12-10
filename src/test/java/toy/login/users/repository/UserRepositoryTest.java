@@ -1,26 +1,29 @@
-package toy.login.repository;
+package toy.login.users.repository;
+
+import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import toy.login.domain.Address;
-import toy.login.domain.User;
+import toy.login.users.domain.Address;
+import toy.login.users.domain.User;
+import toy.login.users.service.UserService;
 
 @SpringBootTest
-@Transactional(readOnly = true)
-@Rollback(value = false)
 class UserRepositoryTest {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	UserService userService;
 
 	@BeforeEach
 	@Transactional
@@ -40,16 +43,19 @@ class UserRepositoryTest {
 	void userJoin() {
 		User user1 = new User("이상민", LocalDate.now(), "lee", "lee", new Address("서울", "영등포", "12345"));
 		User save = userRepository.save(user1);
-		Assertions.assertThat(user1).isEqualTo(save);
+		assertThat(user1).isEqualTo(save);
 	}
 
 	@Test
-	void userFind() {
-		Optional<User> findUser = userRepository.findById(2L);
-		if (findUser.isPresent()) {
-			User user = findUser.get();
-			System.out.println("user = " + user);
-		}
+	void userFindAllTest() {
+		List<User> all = userRepository.findAll();
+		assertThat(all.size()).isGreaterThan(0);
+	}
+
+	@Test
+	void userFindName() {
+		Optional<User> find = userRepository.findByName("이상민1");
+		assertThat(find.isPresent()).isTrue();
 	}
 
 	@Test

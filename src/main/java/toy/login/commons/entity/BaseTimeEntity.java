@@ -1,4 +1,4 @@
-package toy.login.entity;
+package toy.login.commons.entity;
 
 import java.time.LocalDate;
 

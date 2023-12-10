@@ -1,4 +1,4 @@
-package toy.login.config;
+package toy.login.commons.config;
 
 import java.util.Optional;
 import java.util.UUID;

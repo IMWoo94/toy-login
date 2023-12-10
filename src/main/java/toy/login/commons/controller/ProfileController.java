@@ -1,4 +1,4 @@
-package toy.login.controller;
+package toy.login.commons.controller;
 
 import java.util.Arrays;
 import java.util.List;

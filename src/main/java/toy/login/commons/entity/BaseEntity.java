@@ -1,4 +1,4 @@
-package toy.login.entity;
+package toy.login.commons.entity;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -10,7 +10,7 @@ import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity extends BaseTimeEntity{
+public class BaseEntity extends BaseTimeEntity {
 	@CreatedBy
 	@Column(updatable = false)
 	private String createdBy;
