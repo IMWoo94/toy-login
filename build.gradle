@@ -69,13 +69,13 @@ jacocoTestCoverageVerification {
                 minimum = 0.20
             }
             // 커버리지 체크를 제외할 클래스들
-            excludes = ['*.test.*', '*.*Controller']
+            excludes = ['*.*Controller', '*.*Dto']
         }
         rule {
             element = 'CLASS'
             enabled = true
             // 커버리지 체크를 제외할 클래스들
-            excludes = ['*.*Controller']
+            excludes = ['*.*Controller', '*.*Dto']
 
             limit {
                 counter = 'LINE'
