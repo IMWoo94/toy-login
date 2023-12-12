@@ -21,7 +21,7 @@ import toy.login.commons.entity.BaseEntity;
 @Table(name = "Users")
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"name", "birthDate"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 

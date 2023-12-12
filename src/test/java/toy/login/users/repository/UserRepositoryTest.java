@@ -17,6 +17,7 @@ import toy.login.users.domain.User;
 import toy.login.users.service.UserService;
 
 @SpringBootTest
+@Transactional
 class UserRepositoryTest {
 
 	@Autowired
@@ -26,12 +27,11 @@ class UserRepositoryTest {
 	UserService userService;
 
 	@BeforeEach
-	@Transactional
 	void setUp() {
-		User user1 = new User("이상민1", LocalDate.now(), "lee1", "lee", new Address("서울", "영등포", "12345"));
-		User user2 = new User("이상민2", LocalDate.now(), "lee2", "lee", new Address("서울", "영등포", "12345"));
-		User user3 = new User("이상민3", LocalDate.now(), "lee3", "lee", new Address("서울", "영등포", "12345"));
-		User user4 = new User("이상민4", LocalDate.now(), "lee4", "lee", new Address("서울", "영등포", "12345"));
+		User user1 = new User("test1", LocalDate.of(1994, 6, 14), "test1", "test", new Address("서울", "영등포", "12345"));
+		User user2 = new User("test2", LocalDate.now(), "test2", "test", new Address("서울", "영등포", "12345"));
+		User user3 = new User("test3", LocalDate.now(), "test3", "test", new Address("서울", "영등포", "12345"));
+		User user4 = new User("test4", LocalDate.now(), "test4", "test", new Address("서울", "영등포", "12345"));
 		userRepository.save(user1);
 		userRepository.save(user2);
 		userRepository.save(user3);
@@ -39,9 +39,8 @@ class UserRepositoryTest {
 	}
 
 	@Test
-	@Transactional
 	void userJoin() {
-		User user1 = new User("이상민", LocalDate.now(), "lee", "lee", new Address("서울", "영등포", "12345"));
+		User user1 = new User("newUser", LocalDate.now(), "newUser", "newUser", new Address("서울", "영등포", "12345"));
 		User save = userRepository.save(user1);
 		assertThat(user1).isEqualTo(save);
 	}
@@ -54,8 +53,14 @@ class UserRepositoryTest {
 
 	@Test
 	void userFindName() {
-		Optional<User> find = userRepository.findByName("이상민1");
+		Optional<User> find = userRepository.findByName("test1");
 		assertThat(find.isPresent()).isTrue();
+	}
+
+	@Test
+	void findUserIdAndBirthDate() {
+		String findId = userRepository.findByNameAndBirthDate("test1", LocalDate.of(1994, 6, 14));
+		assertThat(findId).isNotNull();
 	}
 
 	@Test
