@@ -33,4 +33,11 @@ public class UserController {
 		@RequestParam("birthDate") LocalDate birthDate) {
 		return new ResponseEntity<>(userService.findUserId(name, birthDate), HttpStatus.OK);
 	}
+
+	@GetMapping("/findPassword")
+	public ResponseEntity<String> findUserPassword(@RequestParam("name") String name,
+		@RequestParam("birthDate") LocalDate birthDate,
+		@RequestParam("loginId") String loginId) {
+		return new ResponseEntity<>(userService.findUserPassword(name, birthDate, loginId), HttpStatus.OK);
+	}
 }

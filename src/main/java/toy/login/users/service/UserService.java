@@ -38,4 +38,13 @@ public class UserService {
 		}
 		return find;
 	}
+
+	@Transactional(readOnly = true)
+	public String findUserPassword(String name, LocalDate birthDate, String loginId) {
+		String find = userRepository.findByNameAndBirthDateAndLoginId(name, birthDate, loginId);
+		if (find == null) {
+			throw new NotFoundUserException();
+		}
+		return find;
+	}
 }

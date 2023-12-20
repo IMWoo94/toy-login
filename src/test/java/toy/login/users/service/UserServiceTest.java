@@ -54,4 +54,18 @@ class UserServiceTest {
 		assertThat(findId).isNotNull();
 	}
 
+	@Test
+	void findUserPassword() {
+		String findPassword = userService.findUserPassword(data.getName(), data.getBirthDate(), data.getLoginId());
+		assertThat(findPassword).isEqualTo(data.getPassword());
+		assertThat(findPassword).isNotNull();
+	}
+
+	@Test
+	void findUserPasswordNotFoundException() {
+		assertThatThrownBy(() -> {
+			userService.findUserPassword(data.getName(), data.getBirthDate(), "non");
+		}).isInstanceOf(NotFoundUserException.class);
+	}
+
 }

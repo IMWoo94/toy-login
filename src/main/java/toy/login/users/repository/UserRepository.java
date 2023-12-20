@@ -15,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("select u.loginId from User u where u.name = :name and u.birthDate = :birthDate")
 	String findByNameAndBirthDate(@Param("name") String name, @Param("birthDate") LocalDate birthDate);
+
+	@Query("select u.password from User u where u.name = :name and u.birthDate = :birthDate and u.loginId = :loginId")
+	String findByNameAndBirthDateAndLoginId(@Param("name") String name,
+		@Param("birthDate") LocalDate birthDate, @Param("loginId") String loginId);
 }

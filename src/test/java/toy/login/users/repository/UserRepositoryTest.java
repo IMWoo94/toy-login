@@ -64,6 +64,13 @@ class UserRepositoryTest {
 	}
 
 	@Test
+	void findUserPassword() {
+		String findPassword = userRepository.findByNameAndBirthDateAndLoginId("test1", LocalDate.of(1994, 6, 14),
+			"test1");
+		assertThat(findPassword).isNotNull();
+	}
+
+	@Test
 	void jacocoTest() {
 		System.out.println("UserRepositoryTest.jacocoTest retest");
 	}
