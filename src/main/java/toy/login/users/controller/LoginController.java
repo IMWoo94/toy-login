@@ -25,7 +25,7 @@ public class LoginController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/logout")
 	public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
 		return new ResponseEntity(HttpStatus.OK);
 	}
