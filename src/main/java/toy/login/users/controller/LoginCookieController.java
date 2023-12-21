@@ -91,4 +91,15 @@ public class LoginCookieController {
 		return new ResponseEntity<>("로그인 되었습니다.", HttpStatus.OK);
 	}
 
+	@GetMapping("/logout")
+	public ResponseEntity logout(HttpServletResponse response) {
+		Cookie idCookie = new Cookie("userLoginResult", "");
+		// 쿠키의 수명 시간을 0으로 선언 시 쿠키가 삭제 처리 됩니다.
+		idCookie.setMaxAge(0);
+		response.addCookie(idCookie);
+
+		return new ResponseEntity<>("로그아웃 되었습니다.", HttpStatus.OK);
+
+	}
+
 }
