@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import toy.login.users.domain.User;
 import toy.login.users.exception.DuplicationUserException;
+import toy.login.users.exception.NotFoundLoginException;
 import toy.login.users.exception.NotFoundUserException;
 import toy.login.users.repository.UserRepository;
 
@@ -46,5 +47,18 @@ public class UserService {
 			throw new NotFoundUserException();
 		}
 		return find;
+	}
+
+	@Transactional(readOnly = true)
+	public boolean login(String loginId, String password) {
+		// ID,PW 유효한지 확인
+		int result = userRepository.findByLoginIdAndPassword(loginId, password);
+
+		if (result == 0) {
+			// ID 가 없다면 회원가입 권유 및 ID 찾기 권유
+			throw new NotFoundLoginException();
+		}
+
+		return true;
 	}
 }
