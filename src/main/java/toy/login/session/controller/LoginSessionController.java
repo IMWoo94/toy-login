@@ -41,14 +41,30 @@ public class LoginSessionController {
 		// http 요청 session id 를 value 로 저장하고 key 값을 리턴
 		String sessionId = sessionRepository.createSession(jSession);
 		// session id 를 찾는 key 값을 cookie 로 전달
-		response.addCookie(new Cookie("mySessionId", sessionId));
+		Cookie sessionIdCookie = new Cookie("mySessionId", sessionId);
+		sessionIdCookie.setPath("/session");
+		response.addCookie(sessionIdCookie);
 
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity("로그인 되었습니다.", HttpStatus.OK);
 	}
 
 	@GetMapping("/logout")
 	public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
-		return new ResponseEntity(HttpStatus.OK);
+
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("mySessionId")) {
+				// sesstion 저장소의 정보 제거
+				sessionRepository.removeSession(cookie.getValue());
+
+				// 클라이언트에 쿠키 정보 제거
+				cookie.setMaxAge(0);
+				cookie.setPath("/session");
+				response.addCookie(cookie);
+				break;
+			}
+		}
+		return new ResponseEntity("로그아웃 되었습니다.", HttpStatus.OK);
 	}
 
 }
