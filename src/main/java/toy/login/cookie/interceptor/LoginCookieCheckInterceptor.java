@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,8 +25,15 @@ public class LoginCookieCheckInterceptor implements HandlerInterceptor {
 		log.info("인증 체크 인터셉터 실행 {}", requestURI);
 
 		Cookie[] cookies = request.getCookies();
+		HttpSession session = request.getSession();
+		String sessionId = session.getId();
+		if (cookies == null || sessionId == null) {
+			log.info("미 로그인");
+			return false;
+		}
+
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("userLoginResult")) {
+			if (cookie.getName().equals("loginCookieSessionId") && sessionId.equals(cookie.getValue())) {
 				log.info("로그인");
 				return true;
 			}
