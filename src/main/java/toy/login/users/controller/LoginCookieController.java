@@ -43,7 +43,6 @@ public class LoginCookieController {
 
 	@GetMapping("/v1")
 	public ResponseEntity loginCheckV1(@RequestParam String loginId,
-		HttpServletResponse response,
 		HttpServletRequest request
 	) {
 
@@ -68,7 +67,6 @@ public class LoginCookieController {
 
 	@GetMapping("/v2")
 	public ResponseEntity loginCheckV2(@RequestParam String loginId,
-		HttpServletResponse response,
 		@CookieValue(name = "userLoginResult", required = false) String userLoginResult
 	) {
 
@@ -95,10 +93,11 @@ public class LoginCookieController {
 	}
 
 	@GetMapping("/logout")
-	public ResponseEntity logout(HttpServletResponse response) {
+	public ResponseEntity logout(HttpServletResponse response, HttpServletRequest request) {
 		Cookie idCookie = new Cookie("userLoginResult", null);
 		// 쿠키의 수명 시간을 0으로 선언 시 쿠키가 삭제 처리 됩니다.
 		idCookie.setMaxAge(0);
+		idCookie.setPath("/cookie");
 		response.addCookie(idCookie);
 
 		return new ResponseEntity<>("로그아웃 되었습니다.", HttpStatus.OK);
