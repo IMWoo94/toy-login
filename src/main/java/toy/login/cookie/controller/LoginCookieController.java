@@ -1,4 +1,4 @@
-package toy.login.users.controller;
+package toy.login.cookie.controller;
 
 import java.util.UUID;
 
