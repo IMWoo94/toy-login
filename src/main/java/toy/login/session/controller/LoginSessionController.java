@@ -2,6 +2,7 @@ package toy.login.session.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,6 +47,25 @@ public class LoginSessionController {
 		response.addCookie(sessionIdCookie);
 
 		return new ResponseEntity("로그인 되었습니다.", HttpStatus.OK);
+	}
+
+	@GetMapping("/check")
+	public ResponseEntity loginCheckV1(HttpServletRequest request,
+		@CookieValue(value = "mySessionId", required = false) String mySessionId) {
+
+		// 셰션 정보 있는지 확인
+		// false 를 주는 이유는 세션이 없는 경우 세션을 생성하지 않도록 옵션 제공
+		HttpSession session = request.getSession(false);
+		if (session == null || mySessionId == null) {
+			return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
+		}
+
+		Object sessionId = sessionRepository.getSession(mySessionId);
+		if (sessionId != null && sessionId.equals(session.getId())) {
+			return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
 	}
 
 	@GetMapping("/logout")
