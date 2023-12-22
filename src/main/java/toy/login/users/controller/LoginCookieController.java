@@ -23,9 +23,26 @@ public class LoginCookieController {
 
 	private final UserService userService;
 
-	@GetMapping("/v1")
-	public ResponseEntity loginCookieV1(@RequestParam String loginId,
+	@GetMapping
+	public ResponseEntity login(@RequestParam String loginId,
 		@RequestParam String password,
+		HttpServletResponse response) {
+
+		// 파라미터를 제공하지 않으면 ExceptionHandler 에 의해서 400 에러 발생
+		userService.login(loginId, password);
+
+		// 쿠키에 시간 정보를 주지 않으면 세션 쿠키 ( 브라우저 종료 시 모두 종료 )
+		Cookie idCookie = new Cookie("userLoginResult", loginId);
+		// 쿠키를 전달해야 하는 특정 경로 지정
+		// /cookie/~~ 로 시작되는 모든 Http 요청에 대해서 해당 Cookie 전달
+		idCookie.setPath("/cookie");
+		response.addCookie(idCookie);
+
+		return new ResponseEntity<>("로그인 되었습니다.", HttpStatus.OK);
+	}
+
+	@GetMapping("/v1")
+	public ResponseEntity loginCheckV1(@RequestParam String loginId,
 		HttpServletResponse response,
 		HttpServletRequest request
 	) {
@@ -35,7 +52,7 @@ public class LoginCookieController {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
 			// 로그인 된 경우 쿠키 [userLoginResult] 값이 "Y" 이다.
-			if (cookie.getName().equals("userLoginResult") && cookie.getValue().equals("Y")) {
+			if (cookie.getName().equals("userLoginResult") && cookie.getValue().equals(loginId)) {
 				isCookie = true;
 			}
 		}
@@ -45,22 +62,12 @@ public class LoginCookieController {
 			return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
 		}
 
-		// 쿠키 정보가 없거나, 쿠키 값이 아니라면 로그인 성공 여부에 따라 쿠키 정보 등록
-
-		// 사용자로 부터 ID 와 PW 를 받는다. -> 일단은 HTTP 쿼리 파라미터로 제공
-		// 파라미터를 제공하지 않으면 ExceptionHandler 에 의해서 400 에러 발생
-		userService.login(loginId, password);
-
-		// 쿠키에 시간 정보를 주지 않으면 세션 쿠키 ( 브라우저 종료 시 모두 종료 )
-		Cookie idCookie = new Cookie("userLoginResult", "Y");
-		response.addCookie(idCookie);
-
-		return new ResponseEntity<>("로그인 되었습니다.", HttpStatus.OK);
+		// 쿠키 정보가 없거나, 쿠키 값이 아니라면 로그인 먼저 진행하도록 제공
+		return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
 	}
 
 	@GetMapping("/v2")
-	public ResponseEntity loginCookieV2(@RequestParam String loginId,
-		@RequestParam String password,
+	public ResponseEntity loginCheckV2(@RequestParam String loginId,
 		HttpServletResponse response,
 		@CookieValue(name = "userLoginResult", required = false) String userLoginResult
 	) {
@@ -75,25 +82,21 @@ public class LoginCookieController {
 		 * 이를 편하게 하기 위해서 @CookieValue 어노테이션을 사용하면 일치하는 Cookie 에 대해서 Controller 에 넘어오기 전에 값을 가져올 수 있다.
 		 */
 		// 쿠키 정보가 없거나, 쿠키 값이 아니라면 로그인 성공 여부에 따라 쿠키 정보 등록
-		if (userLoginResult == null || !"Y".equals(userLoginResult)) {
-			// 사용자로 부터 ID 와 PW 를 받는다. -> 일단은 HTTP 쿼리 파라미터로 제공
-			// 파라미터를 제공하지 않으면 ExceptionHandler 에 의해서 400 에러 발생
-			userService.login(loginId, password);
-
-			// 쿠키에 시간 정보를 주지 않으면 세션 쿠키 ( 브라우저 종료 시 모두 종료 )
-			Cookie idCookie = new Cookie("userLoginResult", "Y");
-			response.addCookie(idCookie);
-		} else {
-			// 쿠키가 존재하면 자동 로그인 처리
-			return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
+		if (userLoginResult == null) {
+			return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity<>("로그인 되었습니다.", HttpStatus.OK);
+		if (loginId.equals(userLoginResult)) {
+			// 쿠키가 존재하면 자동 로그인 처리
+			return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@GetMapping("/logout")
 	public ResponseEntity logout(HttpServletResponse response) {
-		Cookie idCookie = new Cookie("userLoginResult", "");
+		Cookie idCookie = new Cookie("userLoginResult", null);
 		// 쿠키의 수명 시간을 0으로 선언 시 쿠키가 삭제 처리 됩니다.
 		idCookie.setMaxAge(0);
 		response.addCookie(idCookie);
