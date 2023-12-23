@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import toy.login.session.domain.LoginInfo;
 import toy.login.session.repository.SessionRepository;
+import toy.login.session.service.RedisService;
 import toy.login.users.service.UserService;
 
 @RestController
@@ -25,6 +27,7 @@ public class LoginSessionController {
 
 	private final UserService userService;
 	private final SessionRepository sessionRepository;
+	private final RedisService redisService;
 
 	@GetMapping
 	public ResponseEntity login(@RequestParam("loginId") String loginId,
@@ -43,6 +46,33 @@ public class LoginSessionController {
 		String sessionId = sessionRepository.createSession(jSession);
 		// session id 를 찾는 key 값을 cookie 로 전달
 		Cookie sessionIdCookie = new Cookie("mySessionId", sessionId);
+		sessionIdCookie.setPath("/session");
+		response.addCookie(sessionIdCookie);
+
+		return new ResponseEntity("로그인 되었습니다.", HttpStatus.OK);
+	}
+
+	@GetMapping("/redis")
+	public ResponseEntity redisLogin(@RequestParam("loginId") String loginId,
+		@RequestParam("password") String password,
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		// 파라미터를 제공하지 않으면 ExceptionHandler 에 의해서 400 에러 발생
+		userService.login(loginId, password);
+
+		// jsession 세션 정보 가져오기
+		HttpSession session = request.getSession();
+		String jSession = session.getId();
+
+		// Redis 에 넣을 도메인 객체 생성
+		LoginInfo loginInfo = new LoginInfo(jSession);
+
+		// RedisRepository 를 통해서 등록
+		redisService.save(loginInfo);
+
+		// session id 를 찾는 key 값을 cookie 로 전달
+		Cookie sessionIdCookie = new Cookie("mySessionId", loginInfo.getSessionId());
 		sessionIdCookie.setPath("/session");
 		response.addCookie(sessionIdCookie);
 
