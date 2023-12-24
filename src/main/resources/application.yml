@@ -13,6 +13,13 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
     database-platform: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  session:
+    redis:
+      namespace: toy:session
 
 logging:
   level:
@@ -23,4 +30,8 @@ management:
     web:
       exposure:
         include: "*"
-
+server:
+  servlet:
+    session:
+      cookie:
+        name: toyLoginSession

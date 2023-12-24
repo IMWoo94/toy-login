@@ -6,15 +6,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import toy.login.cookie.interceptor.LoginCookieCheckInterceptor;
 import toy.login.session.interceptor.LoginSessionCheckInterceptor;
-import toy.login.session.repository.SessionRepository;
+import toy.login.session.repository.LoginSessionRepository;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-	private final SessionRepository sessionRepository;
+	private final LoginSessionRepository loginSessionRepository;
 
-	public WebConfig(SessionRepository sessionRepository) {
-		this.sessionRepository = sessionRepository;
+	public WebConfig(LoginSessionRepository loginSessionRepository) {
+		this.loginSessionRepository = loginSessionRepository;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
 				"/css/**", "/*.ico", "/error"
 			);
 
-		registry.addInterceptor(new LoginSessionCheckInterceptor(sessionRepository))
+		registry.addInterceptor(new LoginSessionCheckInterceptor(loginSessionRepository))
 			.addPathPatterns("/session/**")
 			.excludePathPatterns(
 				"/session/login", "/session/login/logout",
