@@ -1,5 +1,7 @@
 package toy.login.session.controller;
 
+import java.time.Duration;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,22 @@ public class LoginSessionRedisTemplateController {
 			if (s.equals("mySessionId")) {
 				return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
 			}
+		}
+		return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
+	}
+
+	@GetMapping("/logout")
+	public ResponseEntity logout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			String id = session.getId();
+
+			// 매개변수 key 와 일치하는 데이터 삭제
+			redisTemplate.delete(id);
+			// 등록된 Key 에 대해서 만료시간 지정 0 으로 지정 시 redis 에서 삭제 처리
+			redisTemplate.expire(id, Duration.ZERO);
+
+			return new ResponseEntity("로그아웃 되었습니다.", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
 	}
