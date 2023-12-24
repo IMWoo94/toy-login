@@ -8,13 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import toy.login.session.repository.SessionRepository;
+import toy.login.session.repository.LoginSessionRepository;
 
 @RequiredArgsConstructor
 @Slf4j
 public class LoginSessionCheckInterceptor implements HandlerInterceptor {
 
-	private final SessionRepository sessionRepository;
+	private final LoginSessionRepository loginSessionRepository;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
@@ -29,7 +29,7 @@ public class LoginSessionCheckInterceptor implements HandlerInterceptor {
 			}
 		}
 
-		Object sessionId = sessionRepository.getSession(mySessionId);
+		Object sessionId = loginSessionRepository.getSession(mySessionId);
 		HttpSession session = request.getSession(false);
 		if (session == null || sessionId == null) {
 			return false;

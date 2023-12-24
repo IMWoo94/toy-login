@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SessionRepository {
+public class LoginSessionRepository {
 
 	private static final Map<String, Object> STORAGE = new ConcurrentHashMap<>();
 

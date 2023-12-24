@@ -17,6 +17,9 @@ spring:
     redis:
       host: localhost
       port: 6379
+  session:
+    redis:
+      namespace: toy:session
 
 logging:
   level:
@@ -27,4 +30,9 @@ management:
     web:
       exposure:
         include: "*"
-
+server:
+  servlet:
+    session:
+      cookie:
+        name: toyLoginSession
+      timeout: 10

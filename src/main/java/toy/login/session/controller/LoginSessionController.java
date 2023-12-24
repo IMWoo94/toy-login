@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import toy.login.session.domain.LoginInfo;
-import toy.login.session.repository.SessionRepository;
+import toy.login.session.repository.LoginSessionRepository;
 import toy.login.session.service.RedisService;
 import toy.login.users.service.UserService;
 
@@ -29,7 +29,7 @@ import toy.login.users.service.UserService;
 public class LoginSessionController {
 
 	private final UserService userService;
-	private final SessionRepository sessionRepository;
+	private final LoginSessionRepository loginSessionRepository;
 	private final RedisService redisService;
 
 	@GetMapping
@@ -46,7 +46,7 @@ public class LoginSessionController {
 		String jSession = session.getId();
 
 		// http 요청 session id 를 value 로 저장하고 key 값을 리턴
-		String sessionId = sessionRepository.createSession(jSession);
+		String sessionId = loginSessionRepository.createSession(jSession);
 
 		// session id 를 찾는 key 값을 cookie 로 전달
 		Cookie sessionIdCookie = new Cookie("mySessionId", sessionId);
@@ -67,7 +67,7 @@ public class LoginSessionController {
 			return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
 		}
 
-		Object sessionId = sessionRepository.getSession(mySessionId);
+		Object sessionId = loginSessionRepository.getSession(mySessionId);
 		if (sessionId != null && sessionId.equals(session.getId())) {
 			return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
 		}
@@ -82,7 +82,7 @@ public class LoginSessionController {
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("mySessionId")) {
 				// sesstion 저장소의 정보 제거
-				sessionRepository.removeSession(cookie.getValue());
+				loginSessionRepository.removeSession(cookie.getValue());
 
 				// 클라이언트에 쿠키 정보 제거
 				cookie.setMaxAge(0);
