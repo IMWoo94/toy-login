@@ -39,4 +39,18 @@ public class LoginSessionRedisTemplateController {
 
 		return new ResponseEntity("로그인 되었습니다.", HttpStatus.OK);
 	}
+
+	@GetMapping("/check")
+	public ResponseEntity check(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			String id = session.getId();
+			ValueOperations<String, String> operations = redisTemplate.opsForValue();
+			String s = operations.get(id);
+			if (s.equals("mySessionId")) {
+				return new ResponseEntity<>("기 로그인되어 자동 로그인 되었습니다.", HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>("로그인 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED);
+	}
 }
