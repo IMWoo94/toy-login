@@ -35,4 +35,3 @@ server:
     session:
       cookie:
         name: toyLoginSession
-      timeout: 10
