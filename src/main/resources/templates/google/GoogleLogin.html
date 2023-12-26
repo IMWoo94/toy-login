@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>구글 로그인 - toy</title>
+</head>
+<body>
+<script type="text/javascript">
+    var client_id = "[[${CLIENT_ID}]]";
+    var redirect_url = "[[${REDIRECT_URI}]]";
+</script>
+<a href=""
+   onclick="location.href = 'https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&access_type=offline&include_granted_scopes=true&response_type=code&state=test&client_id='+client_id+'&redirect_uri=' + redirect_url; return false;">구글로
+    로그인 하기</a>
+</body>
+</html>
