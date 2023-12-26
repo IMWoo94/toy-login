@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>카카오 로그인 - toy</title>
+</head>
+<body>
+<script type="text/javascript">
+    var client_id = "[[${CLIENT_ID}]]";
+    var redirect_url = "[[${REDIRECT_URI}]]";
+</script>
+<a href=""
+   onclick="location.href = 'https://kauth.kakao.com/oauth/authorize?client_id='+client_id+'&response_type=code&redirect_uri=' + redirect_url; return false;">카카오로
+    로그인 하기</a>
+</body>
+</html>
