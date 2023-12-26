@@ -20,6 +20,8 @@ spring:
   session:
     redis:
       namespace: toy:session
+  profiles:
+    include: "oauth"
 
 logging:
   level:

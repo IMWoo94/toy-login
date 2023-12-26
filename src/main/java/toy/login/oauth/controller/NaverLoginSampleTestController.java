@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/test/naver")
-public class NaverLoginController {
+public class NaverLoginSampleTestController {
 
 	@GetMapping
 	public String naverLogin() {
