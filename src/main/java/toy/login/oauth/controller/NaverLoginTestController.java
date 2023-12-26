@@ -18,6 +18,14 @@ import toy.login.oauth.domain.Tokens;
 @Slf4j
 public class NaverLoginTestController {
 
+	@Value
+	private final String CLIENT_ID;
+	private final String CLIENT_SECRET;
+
+	/**
+	 * 단순히 타 플랫폼에서 제공하는 Resource Server 에 RestTemplate 를 통해서 접근
+	 * 즉, 직접 컨트롤러를 생성해서 OAuth2 인증
+	 */
 	@GetMapping("/callback")
 	public ResponseEntity loginCallback(@RequestParam("code") String code,
 		@RequestParam("state") String state
