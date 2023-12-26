@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>네이버 로그인 - toy</title>
+</head>
+<body>
+<!-- 네이버 로그인 버튼 노출 영역 -->
+<div id="naver_id_login"></div>
+<!-- //네이버 로그인 버튼 노출 영역 -->
+<script type="text/javascript">
+    var client_id = "[[${CLIENT_ID}]]";
+    var redirect_url = "[[${REDIRECT_URI}]]";
+</script>
+<a href=""
+   onclick="location.href = 'https://nid.naver.com/oauth2.0/authorize?client_id='+client_id+'&response_type=code&redirect_uri=' + redirect_url +'&state=test'; return false;">네이버로
+    로그인 하기</a>
+</body>
+</html>
