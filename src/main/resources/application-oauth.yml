@@ -5,7 +5,7 @@ spring:
         registration:
           naver:
             client-id: S2O23DXoDHfy4teiLNEE
-            client-secret:
+            client-secret: aaa
             redirect-uri: http://localhost:8080/auth/naver/callback
             authorization-grant-type: authorization_code
             scope:
@@ -13,12 +13,14 @@ spring:
               - email
           kakao:
             client-id: 89fd7e95d907a1d6bcd86e5241d89b8f
-            client-secret:
+            client-secret: aaa
             redirect-uri: http://localhost:8080/auth/kakao/callback
+            authorization-grant-type: authorization_code
           google:
             client-id: 101338795971-t4gs0d7nc2mat8pb2305pnbh01h616a2.apps.googleusercontent.com
-            client-secret:
+            client-secret: aaa
             redirect-uri: http://localhost:8080/auth/google/callback
+            authorization-grant-type: authorization_code
             scope: https%3A//www.googleapis.com/auth/drive.metadata.readonly
         provider:
           naver:
