@@ -25,6 +25,7 @@ spring:
 
 logging:
   level:
+    org.apache.coyote.http11: debug
     org.hibernate.SQL: debug
 
 management:
@@ -37,3 +38,5 @@ server:
     session:
       cookie:
         name: toyLoginSession
+
+
