@@ -22,7 +22,7 @@ public class SecurityConfig {
 				.anyRequest().authenticated()
 		).oauth2Login(
 			login -> login.loginPage("/login/oauth2/oauth_login")
-				.defaultSuccessUrl("/api/profiles", true)
+				.defaultSuccessUrl("/login/oauth2/loginSuccess", true)
 		);
 		return http.build();
 	}
