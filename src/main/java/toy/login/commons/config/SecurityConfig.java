@@ -23,7 +23,8 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(
 			(authorize) -> authorize
-				.requestMatchers("/jwt/login").permitAll()
+				.requestMatchers("/jwt/page", "/jwt/login").permitAll()
+				// 이 외의 모든 요청에 대해서는 인증 절차를 거치도록 선언
 				.anyRequest().authenticated()
 		);
 

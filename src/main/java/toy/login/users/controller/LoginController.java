@@ -14,7 +14,7 @@ import toy.login.users.service.UserService;
 
 @RestController
 @Slf4j
-@RequestMapping("/login")
+@RequestMapping("/logintest")
 @RequiredArgsConstructor
 public class LoginController {
 
