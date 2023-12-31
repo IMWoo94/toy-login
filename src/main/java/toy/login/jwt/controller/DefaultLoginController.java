@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,14 @@ public class DefaultLoginController {
 			this.authenticationManager.authenticate(authenticationRequest);
 
 		return new ResponseEntity<>(authenticationResponse.toString(), HttpStatus.OK);
+	}
+
+	@GetMapping("/jwt/login/ok")
+	@ResponseBody
+	public ResponseEntity<String> loginOk(Model model, Authentication auth) {
+		log.info("로그인이 성공한 경우에만 접속 가능");
+		log.info("modle = {}", model);
+		return new ResponseEntity<>(auth.toString(), HttpStatus.OK);
 	}
 
 }
